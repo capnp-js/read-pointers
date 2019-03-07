@@ -89,6 +89,7 @@ function browserRollup() {
   return rollup({
     input: "browser/lib/index.js",
     external: [
+      "@capnp-js/bytes",
       "@capnp-js/read-data",
       "@capnp-js/layout",
       "@capnp-js/tiny-uint",
@@ -100,6 +101,7 @@ function browserRollup() {
       name: "capnpJsReadPointers",
       sourcemap: true,
       globals: {
+        "@capnp-js/bytes": "capnpJsBytes",
         "@capnp-js/read-data": "capnpJsReadData",
         "@capnp-js/layout": "capnpJsLayout",
         "@capnp-js/tiny-uint": "capnpJsTinyUint",

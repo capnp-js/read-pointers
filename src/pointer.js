@@ -2,6 +2,7 @@
 
 import type { SegmentLookup, Pointer, SegmentR, Word } from "@capnp-js/memory";
 
+import { get } from "@capnp-js/bytes";
 import { int32 } from "@capnp-js/read-data";
 import { u2_mask, u3_mask } from "@capnp-js/tiny-uint";
 
@@ -39,7 +40,7 @@ export function double<S: SegmentR>(table: SegmentLookup<S>, far: Word<S>, typeB
 }
 
 export function unsafe<S: SegmentR>(table: SegmentLookup<S>, ref: Word<SegmentR>): Pointer<S> {
-  const lsb = ref.segment.raw[ref.position];
+  const lsb = get(ref.position, ref.segment.raw);
   const typeBits = u2_mask(lsb, 0x03);
   if (typeBits === 0x02) {
     const far = {
@@ -51,10 +52,10 @@ export function unsafe<S: SegmentR>(table: SegmentLookup<S>, ref: Word<SegmentR>
      * get converted to nonsense lists. */
     if (u3_mask(lsb, 0x04) === 0x00) {
       /* Single Hop */
-      return single(far, u2_mask(far.segment.raw[far.position], 0x01));
+      return single(far, u2_mask(get(far.position, far.segment.raw), 0x01));
     } else {
       /* Double Hop */
-      return double(table, far, u2_mask(far.segment.raw[far.position+8], 0x01));
+      return double(table, far, u2_mask(get(far.position+8, far.segment.raw), 0x01));
     }
   } else {
     /* `ref` can be reconstructed as a `Word<S>` by using

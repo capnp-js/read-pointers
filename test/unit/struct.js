@@ -2,11 +2,12 @@
 
 import * as assert from "assert";
 import { describe, it } from "mocha";
+import { create } from "@capnp-js/bytes";
 
 import structLayout from "../../src/structLayout";
 
 describe("structLayout", function () {
-  const segment = { id: 0, raw: new Uint8Array(0), end: 0 };
+  const segment = { id: 0, raw: create(0), end: 0 };
   const p = {
     typeBits: 0x00,
     hi: 0x132a41ba,

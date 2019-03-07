@@ -42,6 +42,7 @@
   },
   "homepage": "https://github.com/capnp-js/read-pointers",
   "dependencies": {
+    "@capnp-js/bytes": "^0.4.0",
     "@capnp-js/layout": "^0.4.0",
     "@capnp-js/memory": "^0.4.0",
     "@capnp-js/read-data": "^0.4.0",

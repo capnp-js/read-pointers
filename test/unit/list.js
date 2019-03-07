@@ -2,8 +2,9 @@
 
 import * as assert from "assert";
 import { describe, it } from "mocha";
-
+import { create, set } from "@capnp-js/bytes";
 import { listEncodings } from "@capnp-js/layout";
+
 import {
   boolListLayout,
   subwordListLayout,
@@ -11,7 +12,7 @@ import {
 } from "../../src/list";
 
 describe("boolListLayout", function () {
-  const segment = { id: 0, raw: new Uint8Array(8), end: 8 };
+  const segment = { id: 0, raw: create(8), end: 8 };
   const p = {
     typeBits: 0x01,
     hi: (6<<3) | 0x01,
@@ -31,7 +32,7 @@ describe("boolListLayout", function () {
 });
 
 describe("subwordListLayout", function () {
-  const segment = { id: 0, raw: new Uint8Array(0), end: 0 };
+  const segment = { id: 0, raw: create(0), end: 0 };
   const p = {
     typeBits: 0x01,
     hi: 0,
@@ -103,12 +104,12 @@ describe("subwordListLayout", function () {
 });
 
 describe("inlineCompositeListLayout", function () {
-  const segment = { id: 0, raw: new Uint8Array(8), end: 8 };
+  const segment = { id: 0, raw: create(8), end: 8 };
 
   it("decodes non-bool 0x07 list layouts from pointer", function () {
-    segment.raw[0] = (2<<2) | 0x00;
-    segment.raw[4] = 0x01;
-    segment.raw[6] = 0x02;
+    set((2<<2) | 0x00, 0, segment.raw);
+    set(0x01, 4, segment.raw);
+    set(0x02, 6, segment.raw);
 
     const p = {
       typeBits: 0x01,

@@ -2,11 +2,12 @@
 
 import * as assert from "assert";
 import { describe, it } from "mocha";
+import { create } from "@capnp-js/bytes";
 
 import { capLayout } from "../../src/cap";
 
 describe("capLayout", function () {
-  const segment = { id: 0, raw: new Uint8Array(0), end: 0 };
+  const segment = { id: 0, raw: create(0), end: 0 };
   const p = {
     typeBits: 0x03,
     hi: 0x12345678,
